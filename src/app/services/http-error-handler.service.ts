@@ -35,8 +35,18 @@ export class HttpErrorHandler {
   handleError<T>(nameOfService = '', action = 'operation', result = {} as T) {
     return (error: HttpErrorResponse): Observable<T> => {
       if (error.status === 403) {
+        alert(error.error.message || 'Token expired, please log in again');
         this.localStorage.delete('user');
         this.router.navigate(['/auth', 'login']);
+      }
+      if (error.status === 404 && action == 'GET USER DETAILS') {
+        // User not found navigate back to safety
+        alert(error.error.message || 'User not found');
+        this.router.navigate(['/dashboard', 'users']);
+      }
+      if (error.status === 401 && (action == 'Sign up' || action == 'Log in')) {
+        // Incorrect credentials, Inform user
+        alert(error.error.message || 'Incorrect email and password');
       }
       if (error.status === 0) {
         // A client-side or network error occurred. Handle it accordingly.

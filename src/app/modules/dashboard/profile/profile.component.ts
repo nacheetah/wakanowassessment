@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../users/users.service';
 import { DetailCardComponent } from '@/app/components/detail-card/detail-card.component';
 import { AuthService } from '../../../layouts/auth/auth-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +33,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +65,10 @@ export class ProfileComponent implements OnInit {
           // return e;
         })
       )
-      .subscribe();
+      .subscribe({
+        error: () => {
+          this.router.navigate(['/dashboard', 'users']);
+        },
+      });
   }
 }
