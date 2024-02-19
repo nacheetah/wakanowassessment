@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
+  loading: 'getting users...' | 'approving...' | '' = '';
   users: Record<string, any>[] = [];
   hasPendingUsers = false;
 
@@ -40,7 +41,13 @@ export class UsersComponent implements OnInit {
     // this.hasPendingUsers = e.checked;
   }
 
-  public handleApproveUser(): void {
-    //
+  public handleApproveUser(id: string): void {
+    this.usersService.approveUser(id).subscribe(() => {
+      // Keeping track of onging calls app-wide should be taken care of by a seperate service
+      // but for brevity, simplicity, and scope we will go with something more basic
+      this.loading = 'approving...';
+      this.handleGetPendingUsers(this.hasPendingUsers);
+      this.loading = '';
+    });
   }
 }

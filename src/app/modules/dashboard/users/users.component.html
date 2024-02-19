@@ -38,7 +38,10 @@
             View
           </button>
 
-          <button *ngSwitchCase="true" (click)="handleApproveUser()">
+          <button
+            *ngSwitchCase="true"
+            (click)="handleApproveUser(item?.['_id'])"
+          >
             Approve
           </button>
         </div>
