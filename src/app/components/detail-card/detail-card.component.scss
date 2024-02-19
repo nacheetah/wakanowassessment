@@ -15,16 +15,42 @@ section {
   .content-wrapper {
     padding: 24px;
     background: #EEEEEE;
-    display: flex;
-    flex-flow: row wrap;
 
-    &>div {
-      flex: 1 1 50%;
-      max-width: 50%;
-      margin-bottom: 24px;
+    >.list {
+      display: flex;
+      flex-flow: row wrap;
 
-      &:nth-child(2n - 1) {
-        padding-right: 12px;
+      &>div {
+        flex: 1 1 50%;
+        max-width: 50%;
+        margin-bottom: 24px;
+
+        &:nth-child(2n - 1) {
+          padding-right: 12px;
+        }
+      }
+    }
+
+    .button-wrapper {
+      display: flex;
+      align-items: center;
+
+      button {
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        background: #5b8ff7;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        display: block;
+
+        &:nth-of-type(1) {
+          background: red;
+          margin-left: auto;
+          margin-right: 20px;
+        }
       }
     }
   }

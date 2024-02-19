@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-
 import { Observable, of } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
+import { AuthService } from '../layouts/auth/auth-service.service';
+import { Router } from '@angular/router';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError = <T>(
@@ -12,7 +14,10 @@ export type HandleError = <T>(
 /** Gracefully handles httpClient errors for this projects */
 @Injectable()
 export class HttpErrorHandler {
-  constructor() {}
+  constructor(
+    private localStorage: LocalStorageService,
+    private router: Router
+  ) {}
 
   /** optional handleError function that already knows the service name */
   createHandleError =
@@ -29,6 +34,10 @@ export class HttpErrorHandler {
    */
   handleError<T>(nameOfService = '', action = 'operation', result = {} as T) {
     return (error: HttpErrorResponse): Observable<T> => {
+      if (error.status === 403) {
+        this.localStorage.delete('user');
+        this.router.navigate(['/auth', 'login']);
+      }
       if (error.status === 0) {
         // A client-side or network error occurred. Handle it accordingly.
         console.error('An error occurred:', error.error);

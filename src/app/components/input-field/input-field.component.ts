@@ -11,6 +11,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class InputFieldComponent implements OnInit {
   @Input() label: string = '';
   @Input() type: string = 'text';
+  @Input() disabled: boolean = false;
   @Input() errorMessage!: string;
   @Input() input: number | string = '';
   @Output() inputChange = new EventEmitter<number | string>();

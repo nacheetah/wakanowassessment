@@ -13,13 +13,34 @@ import { RouterModule } from '@angular/router';
 })
 export class UsersComponent implements OnInit {
   users: Record<string, any>[] = [];
+  hasPendingUsers = false;
 
   constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
-    this.usersService
-      .getUsers()
-      .pipe(tap((e) => console.log(e)))
-      .subscribe((e: any) => (this.users = e || []));
+    this.handleGetPendingUsers(this.hasPendingUsers);
+  }
+
+  private handleGetPendingUsers(ispending: boolean): void {
+    if (ispending) {
+      this.usersService.getPendingUsers().subscribe((e: any) => {
+        this.users = e || [];
+        this.hasPendingUsers = ispending;
+      });
+    } else {
+      this.usersService.getUsers().subscribe((e: any) => {
+        this.users = e || [];
+        this.hasPendingUsers = ispending;
+      });
+    }
+  }
+
+  public handleGetPendingUsersOnClick(e: any): void {
+    this.handleGetPendingUsers(e.checked);
+    // this.hasPendingUsers = e.checked;
+  }
+
+  public handleApproveUser(): void {
+    //
   }
 }
