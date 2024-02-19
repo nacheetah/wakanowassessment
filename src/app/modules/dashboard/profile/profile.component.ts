@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../users/users.service';
 import { DetailCardComponent } from '@/app/components/detail-card/detail-card.component';
 import { AuthService } from '../../../layouts/auth/auth-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,7 @@ export class ProfileComponent implements OnInit {
 
   canEdit = false;
   inputType: 'edit' | 'readonly' = 'readonly';
-  userDetail?: Record<string, any>;
+  userDetail?: any;
   detail: ProfileDetails[] = [
     { key: 'Name', value: '', type: 'text' },
     { key: 'Email', value: '', type: 'email' },
@@ -32,7 +33,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +44,7 @@ export class ProfileComponent implements OnInit {
         map((e) => {
           this.userDetail = e;
 
-          // Transform data no neede data structure
+          // Transform data to needed data structure
           const placeholderArray = [];
           const { first_name, last_name, email } = e;
           const newObj = { name: first_name + ' ' + last_name, email } as any;
@@ -55,10 +57,18 @@ export class ProfileComponent implements OnInit {
           }
           this.detail.splice(0, 2, ...placeholderArray);
           this.canEdit =
+            // You can't edit any other profile excpet that of the user you approved (requirement)
             e?.administrator &&
-            e?.administrator == this.authService.getLoggedInUser()?._id;
+            e?.administrator == this.authService.getLoggedInUser()?._id &&
+            // You can't edit your own profile either (requirement)
+            this.id !== this.authService.getLoggedInUser()?._id;
+          // return e;
         })
       )
-      .subscribe((e: any) => (this.userDetail = e || undefined));
+      .subscribe({
+        error: () => {
+          this.router.navigate(['/dashboard', 'users']);
+        },
+      });
   }
 }

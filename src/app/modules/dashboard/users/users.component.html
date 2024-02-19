@@ -1,10 +1,23 @@
 <section>
   <div class="user-wrapper">
-    <h2>Users</h2>
-    <p>All your users in one place</p>
+    <div>
+      <h2>Users</h2>
+      <p>All your users in one place</p>
+    </div>
+    <div class="checkbox-wrapper">
+      <input
+        type="checkbox"
+        (change)="handleGetPendingUsersOnClick($event.target)"
+        [checked]="hasPendingUsers"
+      />
+      <div>Show users pending my approval</div>
+    </div>
   </div>
   <div class="table-wrapper">
-    <div class="table table-header-wrapper">
+    <div
+      *ngIf="!hasPendingUsers || (hasPendingUsers && !!users?.length)"
+      class="table table-header-wrapper"
+    >
       <div class="table-header">
         <div>Name</div>
         <div>Email</div>
@@ -17,12 +30,26 @@
           {{ item?.["first_name"] || 'N/A' }} {{ item?.["last_name"] || 'N/A' }}
         </div>
         <div>{{ item?.["email"]  || 'N/A'}}</div>
-        <div>
-          <button [routerLink]="['/dashboard', 'profile', item?.['_id'] ]">
+        <div [ngSwitch]="hasPendingUsers">
+          <button
+            *ngSwitchCase="false"
+            [routerLink]="['/dashboard', 'profile', item?.['_id'] ]"
+          >
             View
+          </button>
+
+          <button
+            *ngSwitchCase="true"
+            (click)="handleApproveUser(item?.['_id'])"
+          >
+            Approve
           </button>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="hasPendingUsers && !users?.length" class="empty-message">
+      You are already an admin. You can't approve anymore users.
     </div>
   </div>
 </section>

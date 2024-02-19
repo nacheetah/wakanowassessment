@@ -1,7 +1,12 @@
 <section>
   <div class="profile-wrapper">
-    <h2>Jack Robert</h2>
-    <p>View Jack’s account details here</p>
+    <h2>
+      {{ userDetail?.['first_name'] || 'Loading...' }}
+      {{ userDetail?.['last_name'] }}
+    </h2>
+    <p *ngIf="!!userDetail?.['first_name']">
+      View {{userDetail?.['first_name']}}'s account details here
+    </p>
   </div>
   <div class="card-wrapper">
     <div class="card">

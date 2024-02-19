@@ -16,7 +16,6 @@ export class authTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let newReq = req;
-    alert('yooo');
     if (
       !req.headers.get('Authorization') &&
       req.url !== 'https://simple-auth-crud.onrender.com/sign-in' &&
@@ -24,7 +23,7 @@ export class authTokenInterceptor implements HttpInterceptor {
     ) {
       newReq = req.clone({
         setHeaders: {
-          Authorization: this.authService.getAuthorizationToken(),
+          Authorization: `Bearer ${this.authService.getAuthorizationToken()}`,
         },
       });
     }

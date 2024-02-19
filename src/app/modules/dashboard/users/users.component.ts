@@ -12,14 +12,42 @@ import { RouterModule } from '@angular/router';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
+  loading: 'getting users...' | 'approving...' | '' = '';
   users: Record<string, any>[] = [];
+  hasPendingUsers = false;
 
   constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
-    this.usersService
-      .getUsers()
-      .pipe(tap((e) => console.log(e)))
-      .subscribe((e: any) => (this.users = e || []));
+    this.handleGetPendingUsers(this.hasPendingUsers);
+  }
+
+  private handleGetPendingUsers(ispending: boolean): void {
+    if (ispending) {
+      this.usersService.getPendingUsers().subscribe((e: any) => {
+        this.users = e || [];
+        this.hasPendingUsers = ispending;
+      });
+    } else {
+      this.usersService.getUsers().subscribe((e: any) => {
+        this.users = e || [];
+        this.hasPendingUsers = ispending;
+      });
+    }
+  }
+
+  public handleGetPendingUsersOnClick(e: any): void {
+    this.handleGetPendingUsers(e.checked);
+    // this.hasPendingUsers = e.checked;
+  }
+
+  public handleApproveUser(id: string): void {
+    this.usersService.approveUser(id).subscribe(() => {
+      // Keeping track of onging calls app-wide should be taken care of by a seperate service
+      // but for brevity, simplicity, and scope we will go with something more basic
+      this.loading = 'approving...';
+      this.handleGetPendingUsers(this.hasPendingUsers);
+      this.loading = '';
+    });
   }
 }
