@@ -1,0 +1,23 @@
+<section>
+  <div class="profile-wrapper">
+    <h2>Jack Robert</h2>
+    <p>View Jack’s account details here</p>
+  </div>
+  <div class="card-wrapper">
+    <div class="card">
+      <app-detail-card
+        [canEdit]="canEdit"
+        [detail]="detail"
+        inputType="edit"
+        src="../../../../assets/Rectangle 7.svg"
+      />
+    </div>
+    <div class="card">
+      <app-detail-card
+        [detail]="extraDetail"
+        inputType="readonly"
+        src="../../../../assets/Rectangle 9.svg"
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .dashboard-container {
+    width: 100%;
+    padding: 0 108px;
+    max-width: 1500px;
+
+    .router-outlet {
+      margin-top: 40px;
+    }
+  }
+}

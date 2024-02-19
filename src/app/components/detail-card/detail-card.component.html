@@ -1,0 +1,22 @@
+<section>
+  <div class="image-wrapper">
+    <img [src]="src" alt="" />
+  </div>
+  <div class="content-wrapper">
+    <div *ngFor="let item of detail">
+      <div>
+        <app-key-value
+          *ngIf="inputType === 'readonly' || (inputType === 'edit' && !canEdit)"
+          [key]="item.key || ''"
+          [value]="item.value || ''"
+        />
+        <app-input-field
+          *ngIf="inputType === 'edit' && canEdit"
+          [label]="item.key || ''"
+          [(input)]="item.value"
+          [type]="item.type"
+        />
+      </div>
+    </div>
+  </div>
+</section>

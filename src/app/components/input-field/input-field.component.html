@@ -1,0 +1,15 @@
+<div class="input-component-wrapper">
+  <div class="label-wrapper">
+    <label [for]="inputId">{{ label }}</label>
+  </div>
+  <div class="input-el-wrapper">
+    <input
+      (keyup)="handleChange($event)"
+      [type]="type || 'text'"
+      [value]="input"
+      name=""
+      [id]="inputId"
+    />
+  </div>
+  <div>{{ errorMessage }}</div>
+</div>

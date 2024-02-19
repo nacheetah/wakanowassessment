@@ -1,0 +1,10 @@
+<section class="navbar-wrapper">
+  <div class="navbar-flex-container">
+    <div class="logo">Sopuluchukwu</div>
+    <a [routerLink]="['users']" routerLinkActive="active"><span>Users</span></a>
+    <a [routerLink]="['profile', my_id]" routerLinkActive="active"
+      ><span>My profile</span></a
+    >
+    <button (click)="logOut()">Log out</button>
+  </div>
+</section>

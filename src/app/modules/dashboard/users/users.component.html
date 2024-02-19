@@ -1,0 +1,28 @@
+<section>
+  <div class="user-wrapper">
+    <h2>Users</h2>
+    <p>All your users in one place</p>
+  </div>
+  <div class="table-wrapper">
+    <div class="table table-header-wrapper">
+      <div class="table-header">
+        <div>Name</div>
+        <div>Email</div>
+        <div>Action</div>
+      </div>
+    </div>
+    <div class="table table-body-wrapper">
+      <div *ngFor="let item of users" class="table-body">
+        <div>
+          {{ item?.["first_name"] || 'N/A' }} {{ item?.["last_name"] || 'N/A' }}
+        </div>
+        <div>{{ item?.["email"]  || 'N/A'}}</div>
+        <div>
+          <button [routerLink]="['/dashboard', 'profile', item?.['_id'] ]">
+            View
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

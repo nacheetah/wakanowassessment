@@ -1,0 +1,26 @@
+* {
+  line-height: 140%;
+}
+
+input {
+  padding: 10px 12px;
+  font-size: 15px;
+  width: 100%;
+  outline: none;
+  border: 1px solid #C9C9C9;
+  border-radius: 4px;
+}
+
+input:focus {
+  outline: 1px solid rgba(1, 120, 255, 0.577);
+}
+
+.input-component-wrapper {
+  .label-wrapper {
+    margin-bottom: 8px;
+
+    label {
+      font-weight: 500;
+    }
+  }
+}

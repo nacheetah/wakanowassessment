@@ -1,0 +1,77 @@
+<main>
+  <div class="main-auth-flex">
+    <div class="main-auth-half aroura">
+      <div class="aroura-float">
+        <h1>
+          Welcome to Sopuluchukwu’s <b>ASSESSMENT </b><br />
+          <b>TASK</b>
+        </h1>
+      </div>
+      <app-aroura class="aroura-svg" />
+    </div>
+    <div class="main-auth-half form-container">
+      <div class="form-container__group">
+        <h3>Authentication</h3>
+        <p>Hey, welcome back!</p>
+        <p>Log in to your account to continue</p>
+        <div *ngIf="auth_mode === 'signup'">
+          <div class="firstname-field">
+            <app-input-field
+              label="First name"
+              type="text"
+              [(input)]="auth_model.first_name"
+            />
+          </div>
+          <div class="lastname-field">
+            <app-input-field
+              label="Last name"
+              type="text"
+              [(input)]="auth_model.last_name"
+            />
+          </div>
+        </div>
+        <div class="email-field">
+          <app-input-field
+            label="Email"
+            type="email"
+            [(input)]="auth_model.email"
+          />
+        </div>
+        <div class="password-field">
+          <app-input-field
+            label="Password"
+            type="password"
+            [(input)]="auth_model.password"
+          />
+        </div>
+
+        <div>
+          <button
+            [disabled]="loading"
+            (click)="handleAuthAction()"
+            class="submit"
+            type="submit"
+          >
+            {{
+              loading
+                ? "Loading"
+                : auth_mode === "signup"
+                ? "Sign up"
+                : "Log in"
+            }}
+          </button>
+        </div>
+        <div class="toggle_auth">
+          <a
+            [routerLink]="[
+              '/auth',
+              auth_mode === 'signup' ? 'login' : 'signup'
+            ]"
+            >{{ auth_mode === "signup" ? "Sign up" : "Log in" }}</a
+          >
+          if you don’t already have an account
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
