@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LocalStorageService } from '@/app/services/local-storage.service';
 
 @Component({
   standalone: true,
@@ -16,7 +17,10 @@ export class UsersComponent implements OnInit {
   users: Record<string, any>[] = [];
   hasPendingUsers = false;
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private localStorage: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.handleGetPendingUsers(this.hasPendingUsers);
@@ -31,6 +35,7 @@ export class UsersComponent implements OnInit {
     } else {
       this.usersService.getUsers().subscribe((e: any) => {
         this.users = e || [];
+        this.localStorage.set('users', e);
         this.hasPendingUsers = ispending;
       });
     }
