@@ -10,9 +10,4 @@ export const httpInterceptorProviders = [
     useClass: authTokenInterceptor,
     multi: true,
   },
-  // {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass: checkHeadersInterceptor,
-  //   multi: true,
-  // },
 ];

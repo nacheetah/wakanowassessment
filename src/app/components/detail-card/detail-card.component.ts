@@ -40,7 +40,11 @@ export class DetailCardComponent {
           this.usersService.updateUserDetails(body, param.get('id')!)
         )
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          window.alert('User details updated successfully');
+        },
+      });
   }
 
   public handleDeleteUser(): void {
@@ -48,6 +52,10 @@ export class DetailCardComponent {
       .pipe(
         switchMap((param) => this.usersService.deleteUser(param.get('id')!))
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          window.alert('User deleted successfully');
+        },
+      });
   }
 }
