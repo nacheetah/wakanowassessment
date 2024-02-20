@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DetailCardComponent } from '../components/detail-card/detail-card.component';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LocalStorageService {
   constructor() {}
 

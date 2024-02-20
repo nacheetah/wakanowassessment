@@ -12,7 +12,7 @@ export type HandleError = <T>(
 ) => (error: HttpErrorResponse) => Observable<T>;
 
 /** Gracefully handles httpClient errors for this projects */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpErrorHandler {
   constructor(
     private localStorage: LocalStorageService,
