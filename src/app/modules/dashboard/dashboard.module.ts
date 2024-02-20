@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { UsersService } from './users/users.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [DashboardComponent],

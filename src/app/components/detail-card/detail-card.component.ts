@@ -6,7 +6,6 @@ import { InputFieldComponent } from '../input-field/input-field.component';
 import { UsersService } from '../../modules/dashboard/users/users.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { LocalStorageService } from '@/app/services/local-storage.service';
 
 @Component({
   selector: 'app-detail-card',
@@ -23,8 +22,7 @@ export class DetailCardComponent {
 
   constructor(
     private usersService: UsersService,
-    private route: ActivatedRoute,
-    private localStorage: LocalStorageService
+    private route: ActivatedRoute
   ) {}
 
   public handleSaveDetails(): void {
