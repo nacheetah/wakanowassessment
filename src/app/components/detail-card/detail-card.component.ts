@@ -6,6 +6,7 @@ import { InputFieldComponent } from '../input-field/input-field.component';
 import { UsersService } from '../../modules/dashboard/users/users.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { LocalStorageService } from '@/app/services/local-storage.service';
 
 @Component({
   selector: 'app-detail-card',
@@ -22,7 +23,8 @@ export class DetailCardComponent {
 
   constructor(
     private usersService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private localStorage: LocalStorageService
   ) {}
 
   public handleSaveDetails(): void {
@@ -41,7 +43,12 @@ export class DetailCardComponent {
         )
       )
       .subscribe({
-        next: () => {
+        next: (e) => {
+          /**
+           * A good fail safe would be to save updated data to some sort of storage (local storage or Ngrx store) like so
+           * this.localStorage.set('user-details', e)
+           * in case the page is relaoded and connection fails the user still sees the right information
+           */
           window.alert('User details updated successfully');
         },
       });
