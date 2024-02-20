@@ -6,6 +6,8 @@ import { UsersService } from '../users/users.service';
 import { DetailCardComponent } from '@/app/components/detail-card/detail-card.component';
 import { AuthService } from '../../../layouts/auth/auth-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { mapToArrayFn } from '@/app/helpers';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
-  // private id!: string;
+  @Input() id!: string;
 
   canEdit = false;
   inputType: 'edit' | 'readonly' = 'readonly';
@@ -35,7 +37,8 @@ export class ProfileComponent implements OnInit {
     private usersService: UsersService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private localStorage: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -48,27 +51,33 @@ export class ProfileComponent implements OnInit {
             this.userDetail = e;
 
             // Transform data to needed data structure
-            const placeholderArray = [];
             const { first_name, last_name, email } = e;
             const newObj = { name: first_name + ' ' + last_name, email } as any;
-            for (const key in newObj) {
-              placeholderArray.push({
-                key,
-                value: newObj[key],
-                type: key == 'name' ? 'text' : 'email',
-              });
-            }
-            this.detail.splice(0, 2, ...placeholderArray);
+
+            this.detail.splice(0, 2, ...mapToArrayFn(newObj));
             this.canEdit =
               // You can't edit any other profile excpet that of the user you approved (requirement)
               e?.administrator &&
               e?.administrator == this.authService.getLoggedInUser()?._id &&
               // You can't edit your own profile either (requirement)
               id !== this.authService.getLoggedInUser()?._id;
-            // return e;
+            return e;
           })
         )
         .subscribe({
+          next: () => {
+            // console.log(this.userDetail, 'all users');
+            const admin = this.localStorage
+              .get('users')
+              .find(
+                (user: any) => this.userDetail?.administrator || '' === user._id
+              );
+            this.extraDetail[0].value =
+              `${admin?.first_name || ''} ${admin?.last_name || ''}`.trim() ||
+              'N/A';
+
+            this.extraDetail[1].value = this.userDetail.createdAt || 'N/A';
+          },
           error: () => {
             this.router.navigate(['/dashboard', 'users']);
           },
