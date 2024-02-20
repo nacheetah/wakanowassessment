@@ -45,7 +45,9 @@ export class AuthComponent implements OnInit {
   public handleAuthAction(): void {
     this.loading = true;
     if (this.auth_mode === 'signup') {
-      this.authService.signup(this.auth_model).subscribe();
+      this.authService.signup(this.auth_model).subscribe(() => {
+        this.loading = false;
+      });
     } else {
       const new_body = { ...this.auth_model };
       delete new_body.first_name;

@@ -42,12 +42,24 @@ export class UsersComponent implements OnInit {
   }
 
   public handleApproveUser(id: string): void {
-    this.usersService.approveUser(id).subscribe(() => {
-      // Keeping track of onging calls app-wide should be taken care of by a seperate service
-      // but for brevity, simplicity, and scope we will go with something more basic
-      this.loading = 'approving...';
-      this.handleGetPendingUsers(this.hasPendingUsers);
-      this.loading = '';
-    });
+    this.usersService
+      .approveUser(id)
+      .pipe(
+        tap((e) => {
+          this.loading = 'approving...';
+
+          return e;
+        })
+      )
+      .subscribe({
+        next: () => {
+          // Keeping track of onging calls app-wide should be taken care of by a seperate service
+          // but for brevity, simplicity, and scope we will go with something more basic
+
+          this.handleGetPendingUsers(this.hasPendingUsers);
+          this.loading = '';
+          window.alert('User approved successfully');
+        },
+      });
   }
 }
